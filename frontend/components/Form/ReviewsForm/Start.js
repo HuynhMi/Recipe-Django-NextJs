@@ -20,15 +20,15 @@ function Start({
 	}, [submitSuccess]);
 	return (
 		<div className="flex lg:gap-4 lg:items-center flex-col lg:flex-row mt-3">
-			<Label label="Your rating" />
-			<div className="flex gap-2 items-center">
+			<Label label="Rating" />
+			<div className="flex gap-x-2 items-center flex-wrap">
 				{ratingScale.map(({ id }) => {
 					return (
 						<button
 							key={id}
 							type="button"
 							onClick={() => setRating(id)}
-							className={`text-[2rem] mb-2 ${
+							className={`md:text-[2rem] text-[1.8rem]  mb-2 ${
 								id <= rating ? 'text-yellow' : 'text-black'
 							}`}
 							disabled={disabled}

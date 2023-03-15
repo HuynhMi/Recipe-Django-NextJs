@@ -14,7 +14,7 @@ const { createContext, useContext, useState, useEffect } = require('react');
 const RecipeContext = createContext();
 
 const RecipeProvider = ({ children }) => {
-	const { configAuth, user, setUser } = useAuthContext();
+	const { configAuth, user, setUser, isAuthenticated } = useAuthContext();
 	const [loading, setLoading] = useState(false);
 	const [slugUpdate, setSlugUpdate] = useState(null);
 	const {
@@ -25,6 +25,7 @@ const RecipeProvider = ({ children }) => {
 		keywords,
 		photos,
 		topRating,
+		photoRandom,
 	} = useRecipes();
 
 	const deleteRecipe = (slug) =>
@@ -34,8 +35,9 @@ const RecipeProvider = ({ children }) => {
 		api.delete(`${ENDPOINT_RECIPE_IMAGE}${id}/`, configAuth());
 
 	const handleToggleBookmark = async (act, id) => {
-		setLoading(true);
+		if (!isAuthenticated) return toast.error('Please login first');
 		if (!act) {
+			setLoading(true);
 			api.post(
 				`user/profile/${user?.id}/bookmarks`,
 				{
@@ -100,6 +102,7 @@ const RecipeProvider = ({ children }) => {
 				keywords,
 				topRating,
 				photos,
+				photoRandom,
 			}}
 		>
 			{children}

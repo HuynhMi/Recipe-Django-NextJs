@@ -17,6 +17,8 @@ import { useRecipeContext } from '@context/recipe-context';
 import Button from '@components/UI/Button';
 import Loader from '@components/UI/Loader';
 import TopRating from '@components/Recipe/TopRating';
+import { TitlePrimary } from '@components/UI/Title';
+import { BsSearch } from 'react-icons/bs';
 
 function Search() {
 	const router = useRouter();
@@ -25,7 +27,7 @@ function Search() {
 
 	const [queryParams, setQueryParams] = useState(query);
 	const { data, isLoading, isValidating } = useSWR(
-		[ENDPOINT_RECIPE_READ, queryParams],
+		[ENDPOINT_RECIPE, queryParams],
 		([url, queryParams = {}]) => {
 			return api.get(url, {
 				params: queryParams,
@@ -40,10 +42,21 @@ function Search() {
 
 	return (
 		<div className="container">
-			<h1 className=" flex gap-4">
-				<FaSearch className="relative top-[1px]" /> Search Result:
-				{data?.data?.results.length > 0 && data?.data?.results.length}
-			</h1>
+			<div className=" flex gap-3">
+				{/* <BsSearch className="relative top-[1px] text-5xl" /> */}
+				{/* <TitlePrimary title=" " /> */}
+
+				{data?.data?.results.length > 0 && (
+					<span className="text-4xl text-black">
+						{`Showing ${data?.data?.results.length} result ${
+							data?.data?.results.length > 1 ? 's' : ''
+						} for `}
+						<span className="text-4xl text-black font-semibold">
+							{query.search}
+						</span>
+					</span>
+				)}
+			</div>
 
 			{isLoading || isValidating ? (
 				<div className="flex justify-center mt-10">

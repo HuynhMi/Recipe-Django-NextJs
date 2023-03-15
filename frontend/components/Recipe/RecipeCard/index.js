@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import createMarkup from '@utils/createMarkup';
 import formatDate from '@utils/formatdate';
-import { AiFillClockCircle } from 'react-icons/ai';
+import { AiFillClockCircle, AiFillHeart } from 'react-icons/ai';
 import { BsBookmarksFill } from 'react-icons/bs';
 import { FiEdit } from 'react-icons/fi';
 import { HiOutlineTag } from 'react-icons/hi';
 import { MdDateRange, MdAddPhotoAlternate, MdDelete } from 'react-icons/md';
 import Button from '@components/UI/Button';
 import Img from '@components/UI/Image';
-import Rating from '@components/UI/Reviews/Rate';
+import Rating from '@components/Reviews/Rate';
 import ConfirmDelete from '@components/Form/ConfirmDelete';
 import { useState } from 'react';
 import Tooltip from '@components/UI/Tooltip';
@@ -36,8 +36,8 @@ function RecipeCard({
 	actBookmark,
 	handleToggleBookmark = () => {},
 	lastPost,
-	isAverage,
 	noBorder,
+	isSlider,
 }) {
 	const date_format = formatDate(date);
 	const summaryMarkup = summary && getPlainTextFromHtml(summary);
@@ -45,8 +45,8 @@ function RecipeCard({
 	return lastPost ? (
 		<div
 			className={`flex grid-cols-3 gap-4 ${
-				noBorder ? '' : 'border-t'
-			} pt-4`}
+				noBorder ? '' : 'border-t pt-4'
+			} `}
 		>
 			<Link
 				href={`/recipes/${slug}`}
@@ -62,11 +62,11 @@ function RecipeCard({
 			<div className="flex-1 flex flex-col justify-center">
 				<Link
 					href={`/recipes/${slug}`}
-					className="text-semibold lg:text-xl text-lg font-serif text-black line-clamp-2 capitalize"
+					className="text-semibold lg:text-xl text-lg font-serif text-black line-clamp-2 capitalize "
 				>
 					{name}
 				</Link>
-				<span className="text-sm block whitespace-nowrap">
+				<span className="text-sm block whitespace-nowrap leading-none mt-1">
 					{date_format}
 				</span>
 				{rating && (
@@ -116,22 +116,18 @@ function RecipeCard({
 					{secondary ? null : (
 						<Tooltip
 							content={
-								actBookmark
-									? 'Remove collection'
-									: 'Add collection'
+								actBookmark ? 'Remove wishlist' : 'Add wishlist'
 							}
 						>
 							<button
 								onClick={() =>
 									handleToggleBookmark(actBookmark, id)
 								}
-								className={`p-2 rounded-full  text-xl absolute top-2 right-2 shadow-lg ${
-									actBookmark
-										? 'bg-white text-primary'
-										: 'bg-primary text-white'
+								className={`p-2 bg-white rounded-full  text-xl absolute top-2 right-2 shadow-lg ${
+									actBookmark ? ' text-red' : ' text-black'
 								} `}
 							>
-								<BsBookmarksFill />
+								<AiFillHeart />
 							</button>
 						</Tooltip>
 					)}
@@ -160,7 +156,9 @@ function RecipeCard({
 									: lgCard
 									? 'text-2xl '
 									: 'text-xl'
-							}    hover:text-primaryDark transition-all duration-200`}
+							}    hover:text-primaryDark transition-all duration-200 ${
+								isSlider ? 'h-12' : ''
+							}`}
 							title={name}
 						>
 							{name}

@@ -1,9 +1,4 @@
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
-import { BsInstagram } from 'react-icons/bs';
-
-import Button from '@components/UI/Button';
 import Img from '@components/UI/Image';
 import CommonSection from './CommonSection';
 import { useRecipeContext } from '@context/recipe-context';
@@ -42,7 +37,7 @@ function CollectionPics({ isFooter }) {
 							<Img
 								src={pic.src}
 								alt="pic"
-								className="lg:h-32 lg:h-20 md:h-36 h-64 w-[90%] mx-auto"
+								className="lg:h-32 lg:h-20 md:h-36 h-64 max-md:w-[90%] mx-auto"
 								cover
 							/>
 						</Link>

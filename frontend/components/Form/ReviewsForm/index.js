@@ -9,7 +9,7 @@ function ReviewForm({ onSubmit }) {
 	const {
 		register,
 		handleSubmit,
-		formState: { isSubmitting, isSubmitSuccessful },
+		formState: { isSubmitting, isSubmitSuccessful, errors },
 		setValue,
 		reset,
 	} = useForm({
@@ -29,7 +29,7 @@ function ReviewForm({ onSubmit }) {
 	return (
 		<Form
 			onSubmit={handleSubmit(({ review }) => onSubmit(review))}
-			className="bg-white p-5 rounded-md !gap-1"
+			className="bg-white p-5 max-md:px-4 rounded-md !gap-1"
 		>
 			<InputField
 				label="Title"
@@ -37,6 +37,7 @@ function ReviewForm({ onSubmit }) {
 				register={register}
 				rules={{ required: 'Enter your review title' }}
 				placeholder="Enter your review title"
+				error={errors?.review?.title}
 				required
 			/>
 			<Start
@@ -45,7 +46,7 @@ function ReviewForm({ onSubmit }) {
 				submitSuccess={isSubmitSuccessful}
 			/>
 			<TextAreaField
-				label="Your reviews (optional)"
+				label="Comment"
 				name={'review.content'}
 				register={register}
 				rows="3"

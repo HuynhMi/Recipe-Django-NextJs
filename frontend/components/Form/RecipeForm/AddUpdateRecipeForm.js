@@ -334,14 +334,14 @@ function AddUpdateRecipeForm({ onSubmit, handleCancel, initValues, isUpdate }) {
 			)}
 			<div className="flex gap-4 mt-5 justify-end items-center">
 				<Button
-					className="cancle lg min-w-[200px] !font-semibold"
+					className="cancle lg min-w-[200px]"
 					type="reset"
 					onClick={handleCancel}
 				>
 					Cancel
 				</Button>
 				<Button
-					className="lg primary px-24 min-w-[200px] !font-semibold"
+					className="lg primary px-24 min-w-[200px]"
 					type="submit"
 					disabled={isSubmitting}
 				>
@@ -355,7 +355,7 @@ function AddUpdateRecipeForm({ onSubmit, handleCancel, initValues, isUpdate }) {
 
 const Title = ({ title, info }) => (
 	<div className="flex gap-2 items-center border-b border-primary pb-1 mb-2">
-		<h2 className="font-serif">{title}</h2>
+		<h4 className="font-serif tracking-widest">{title}</h4>
 		{info && (
 			<Tippy
 				content={info.content}

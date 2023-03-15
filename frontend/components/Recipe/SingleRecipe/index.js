@@ -1,16 +1,17 @@
 import { BsClockFill } from 'react-icons/bs';
-import { BsBookmarksFill } from 'react-icons/bs';
-
 import { FaUser } from 'react-icons/fa';
 import Img from '@components/UI/Image';
 import formatDate from '@utils/formatdate';
 import createMarkup from '@utils/createMarkup';
 import Thumbnail from '@components/UI/Slider/Thumbnail';
 import Ingredient from './Ingredient';
-import Tippy from '@tippyjs/react';
-import Rating from '@components/UI/Reviews/Rate';
+import Rating from '@components/Reviews/Rate';
 import formatTime from '@utils/formatTime';
 import { getInstructionAsArr } from '@utils/handleInstruction';
+import { AiFillHeart } from 'react-icons/ai';
+import Button from '@components/UI/Button';
+import Method from './Method';
+
 function SingRecipe({
 	id,
 	updated_at,
@@ -36,27 +37,9 @@ function SingRecipe({
 	const instructionsArr = getInstructionAsArr(instructions);
 	return (
 		<div>
-			<div className="flex gap-2 justify-center items-start ">
-				<h1 className="text-center font-serif capitalize">{title}</h1>
-				<Tippy
-					content={
-						<span>
-							{actBookmark ? 'Remove bookmark' : 'Add bookmark'}
-						</span>
-					}
-				>
-					<button
-						onClick={() => handleToggleBookmark(actBookmark, id)}
-						className={`text-2xl ml-2  ${
-							actBookmark ? 'text-primary' : 'text-black'
-						}`}
-					>
-						<BsBookmarksFill />
-					</button>
-				</Tippy>
-			</div>
+			<h1 className="text-center font-serif capitalize">{title}</h1>
 			<span className="block text-center font-medium mt-2">
-				{updated_at_format} / {author}
+				{`${updated_at_format} / by ${author}`}
 			</span>
 			<Img
 				src={cover}
@@ -82,7 +65,7 @@ function SingRecipe({
 					<div className="lg:col-span-8 ">
 						<h2 className="font-serif capitalize">{title}</h2>
 						<span className="block mt-1">
-							{updated_at_format} / {author}
+							{`${updated_at_format} / by ${author}`}
 						</span>
 						{rating && (
 							<Rating
@@ -92,13 +75,32 @@ function SingRecipe({
 							/>
 						)}
 
-						<div className="grid md:grid-cols-2 grid-cols-1 gap-x-6 mt-3 mb-2">
+						<div className="flex flex-wrap gap-x-6 mt-3 mb-2">
 							<TimerBox
 								prep_time={prep_time}
 								cook_time={cook_time}
 								serving={serving}
 							/>
 						</div>
+						<Button
+							className="mt-3 tag"
+							icon={{
+								left: (
+									<AiFillHeart
+										className={`${
+											actBookmark ? 'text-red' : ''
+										}`}
+									/>
+								),
+							}}
+							onClick={() =>
+								handleToggleBookmark(actBookmark, id)
+							}
+						>
+							{actBookmark
+								? 'Remove wishlist'
+								: 'Add to wishlist'}
+						</Button>
 					</div>
 					<div className="lg:col-span-4 flex flex-col gap-6 max-lg:row-start-1">
 						<Img
@@ -112,22 +114,10 @@ function SingRecipe({
 				<Title title="Ingredients" />
 
 				<Ingredient ingredients={ingredients} />
-				<Title title="Method" />
-				<ul className="text-base flex flex-col gap-2 p-0 m-0">
-					{instructionsArr.map(({ content }, index) => (
-						<li
-							className="flex gap-2"
-							key={index}
-						>
-							<span className="w-5 h-5 leading-5 text-sm border rounded-full shrink-0 text-center relative top-1">
-								{index + 1}
-							</span>
-							<span className="first-letter:uppercase">
-								{content}
-							</span>
-						</li>
-					))}
-				</ul>
+				{instructionsArr && (
+					<Method instructionsArr={instructionsArr} />
+				)}
+
 				{notes && (
 					<div>
 						<Title title="NOTES" />
@@ -146,10 +136,10 @@ const Title = ({ title }) => (
 );
 
 const Timer = ({ children }) => (
-	<span className="flex items-center gap-2">{children}</span>
+	<span className="flex items-center gap-2 ">{children}</span>
 );
 
-const TimerBox = ({ prep_time, cook_time, serving }) => (
+export const TimerBox = ({ prep_time, cook_time, serving }) => (
 	<>
 		{prep_time && (
 			<Timer>

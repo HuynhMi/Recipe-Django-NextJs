@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from './Footer';
 import Header from './Header';
 import Loader from '@components/UI/Loader';
+import { toast, Toaster } from 'react-hot-toast';
 
 const contextClass = {
 	success: 'bg-[#edfce9]',
@@ -18,10 +19,23 @@ function RootLayout({ children }) {
 	return (
 		<>
 			<Header />
+			{/* <button onClick={() => toast('Me here')}>click me</button> */}
 			<div className="max-md:mt-[128px] py-1 md:mt-32 lg:mt-0 mt-0">
 				{children}
 			</div>
 			<Footer />
+
+			<Toaster
+				position="top-right"
+				toastOptions={{
+					className: '',
+					style: {
+						border: '1px solid #713200',
+						padding: '16px',
+						color: '#713200',
+					},
+				}}
+			/>
 			<ToastContainer
 				position="top-right"
 				autoClose={1000}
@@ -34,7 +48,7 @@ function RootLayout({ children }) {
 				icon={false}
 			/>
 			{loading || loadingRecipes ? (
-				<div className="fixed inset-0 bg-[rgba(255,255,255,0.7)] flex mt-44">
+				<div className="fixed inset-0 bg-[rgba(255,255,255,0.8)] z-[999] flex">
 					<Loader type="handle" />
 				</div>
 			) : null}
