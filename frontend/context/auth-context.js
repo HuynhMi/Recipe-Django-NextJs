@@ -7,7 +7,7 @@ import {
 	getRefreshTokenFromCookie,
 	setCookie,
 } from '@utils/cookies';
-import { toast } from 'react-toastify';
+
 import {
 	ENDPOINT_LOGIN,
 	ENDPOINT_LOGOUT,
@@ -17,6 +17,7 @@ import {
 	ENDPOINT_USER,
 	ENDPOINT_USER_PROFILE,
 } from '@utils/constants';
+import toastMessage from '@utils/toastMessage';
 
 const AuthContext = createContext();
 
@@ -110,13 +111,23 @@ const AuthProvider = ({ children }) => {
 			remember && setCookie(access, refresh);
 
 			const user = await getUser(access);
-			const {
-				profile: { image_url: avatar, ..._profile },
-				...rest
-			} = user.data;
+			const { profile, ...rest } = user.data;
 
-			setUser({ avatar, ..._profile, ...rest });
-			router.push('/user/profile');
+			setUser({ ...profile, ...rest });
+
+			const checkProfile = updatedProfile({
+				avatar: profile.avatar,
+				bio: profile.bio,
+				last: rest.last_name,
+				first: rest.first_name,
+			});
+
+			if (checkProfile) {
+				router.push('/');
+			} else {
+				router.push('/user/updateprofile');
+				toastMessage({message:'your profile is incomplete.', type:'error'})
+			}
 		} catch ({ status, _error }) {
 			setUser((pre) => ({ ...pre, email: email }));
 			if (status === 400) {
@@ -129,7 +140,10 @@ const AuthProvider = ({ children }) => {
 						},
 					});
 				} else {
-					toast.error(_error.detail);
+					toastMessage({
+						message: _error.detail,
+						type: 'error',
+					});
 				}
 			}
 		}
@@ -143,10 +157,17 @@ const AuthProvider = ({ children }) => {
 			.then((res) => {
 				setErrors(null);
 				if (res.data.msg === 'No such user, register first') {
-					toast.error('Resend failed!');
+					toastMessage({
+						message: 'Resend failed!',
+						type: 'error',
+					});
 					return 400;
 				} else {
-					toast.success('We have sent the new verify email.');
+					toastMessage({
+						message: 'We have sent the new verify email.',
+						type: 'success',
+					});
+					
 				}
 			})
 			.catch();
@@ -168,6 +189,10 @@ const AuthProvider = ({ children }) => {
 		}
 	};
 
+	const updatedProfile = (profile) => {
+		const check = Object.keys(profile).every((key) => profile[key]);
+		return check;
+	};
 	const getUser = (access = token.access) =>
 		api.get(ENDPOINT_USER, configAuth(access));
 
