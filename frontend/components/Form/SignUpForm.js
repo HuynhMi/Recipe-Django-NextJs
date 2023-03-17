@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 
+import { images } from '@utils/constants';
 import { Form, InputField } from './FormControl';
 import Img from '@components/UI/Image';
 import Button from '@components/UI/Button';
@@ -56,13 +57,11 @@ function SignUpForm({ onSubmit }) {
 				<TitlePrimary title="Register" />
 				<Img
 					alt="login_icon"
-					src="/static/images/login.png"
+					src={images.icon1}
 					className="md:w-20 md:h-20 w-20 h-20"
 				/>
 			</div>
-			<p className="text-center mb-10">
-				Welcome. We are glad you are here.
-			</p>
+			<p className="text-center mb-10">Welcome. We are glad you are here.</p>
 			<Form onSubmit={handleSubmit((data) => onSubmit(data.register))}>
 				<InputField
 					name="register.username"
@@ -139,17 +138,11 @@ function SignUpForm({ onSubmit }) {
 				</p>
 				<span className="text-base text-center px-12">
 					By clicking "Create Account", I consent to
-					<Link
-						href="/"
-						className="underline text-primary ml-1"
-					>
+					<Link href="/" className="underline text-primary ml-1">
 						the Terms of Services
 					</Link>{' '}
 					and{' '}
-					<Link
-						href="/"
-						className="underline text-primary"
-					>
+					<Link href="/" className="underline text-primary">
 						Privacy Policy
 					</Link>
 					.
