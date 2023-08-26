@@ -40,7 +40,7 @@ To get this project up and running locally on your computer follow the following
 * 🔓 Password reset & email verification functionality
 * 📗 Interactive UI and flexible customization options for generating documentation using Swagger and ReDoc
 * 🔑 Permission classes and throttling management 
-* ✨ Frontend is built using Next.js and can be found [here](https://homecook.up.railway.app/)
+* ✨ Frontend is built using Next.js and can be found [here](https://homecook-iota.vercel.app/)
 
 ## Tech Stack / Built With
 List down the technology / frameworks / tools / technology in this project.
